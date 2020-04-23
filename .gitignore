@@ -30,4 +30,5 @@ chrome-user-data
 *.iml
 .vscode
 **/yarn.lock
+*.lock
 /package-lock.json
