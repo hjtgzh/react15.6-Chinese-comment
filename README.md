@@ -4,21 +4,25 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-23 19:03:36
+ * @LastEditTime: 2020-04-23 19:25:35
  -->
-# [React](https://facebook.github.io/react/)
-react源码中文注解
+# [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
-## React 源码的组织结构
+## React 源码的组织结构如下：
 ![avatar](/imgs/mulu.png)
 
-React is a JavaScript library for building user interfaces.
-
-* **Declarative:** React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
-* **Component-Based:** Build encapsulated components that manage their own state, then compose them to make complex UIs. Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep state out of the DOM.
-* **Learn Once, Write Anywhere:** We don't make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using Node and power mobile apps using [React Native](https://facebook.github.io/react-native/).
-
-[Learn how to use React in your own project](https://facebook.github.io/react/docs/getting-started.html).
+* **addons:** 包含一系列的工具方法插件，如 PureRenderMixin 、 CSSTransitionGroup 、 Fragment 、
+LinkedStateMixin 等。
+* **isomorphic:** 包含一系列同构方法。
+* **shared:** 包含一些公用或常用方法，如 PooledClass 等。
+* **renderers:** 是 React 代码的核心部分，它包含了大部分功能实现。renderers 分为 dom 和 shared 等目录。
+  * **dom:** 包含 client、server 和 shared。
+    * **client:** 包含 DOM 操作方法（如 findDOMNode 、 setInnerHTML 、 setTextContent 等）以及事件方法，结构如图 3-2 所示。这里的事件方法主要是一些非底层的实用性事件方法，如事件监听（ ReactEventListener ）、常用事件方法（ TapEventPlugin 、 EnterLeave-EventPlugin ）以及一些合成事件（ SyntheticEvents 等）。
+    * **server:** 主要包含服务端渲染的实现和方法（如ReactServerRendering 、 ReactServer-RenderingTransaction 等）。
+    * **shared:** 包含文本组件（ReactDOMTextComponent）、标签组件（ReactDOMComponent）、DOM 属性操作（ DOMProperty 、 DOMPropertyOperations ）、CSS 属性操作（ CSSProperty 、CSSPropertyOperations ）等。
+  * **shared:** 包含 event 和 reconciler。
+    * **event:** 包含一些更为底层的事件方法，如事件插件中心（ EventPluginHub ）、事件注册（ EventPluginRegistry ）、事件传播（ EventPropagators ）以及一些事件通用方法。React 自定义了一套通用事件的插件系统，该系统包含事件监听器、事件发射器、事件插件中心、点击事件、进/出事件、简单事件、合成事件以及一些事件方法。
+    * **reconciler:** 称为协调器，它是最为核心的部分，包含 React 中自定义组件的实现（ReactCompositeComponent）、组件生命周期机制、setState 机制（ReactUpdates、ReactUpdateQueue）、DOM diff 算法（ReactMultiChild）等重要的特性方法。
 
 ## Examples
 
