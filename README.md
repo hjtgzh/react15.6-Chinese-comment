@@ -1,4 +1,16 @@
-# [React](https://facebook.github.io/react/) [![Build Status](https://img.shields.io/travis/facebook/react/master.svg?style=flat)](https://travis-ci.org/facebook/react) [![Coverage Status](https://img.shields.io/coveralls/facebook/react/master.svg?style=flat)](https://coveralls.io/github/facebook/react?branch=master) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+<!--
+ * @文件描述: readme.md文件
+ * @公司: thundersdata
+ * @作者: 黄建停
+ * @Date: 2020-04-10 09:30:55
+ * @LastEditors: 黄建停
+ * @LastEditTime: 2020-04-23 19:03:36
+ -->
+# [React](https://facebook.github.io/react/)
+react源码中文注解
+
+## React 源码的组织结构
+![avatar](/imgs/mulu.png)
 
 React is a JavaScript library for building user interfaces.
 
