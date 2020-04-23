@@ -7,21 +7,21 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-'use strict';
+"use strict";
 
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var flatten = require('gulp-flatten');
-var del = require('del');
-var merge = require('merge-stream');
+var gulp = require("gulp");
+var babel = require("gulp-babel");
+var flatten = require("gulp-flatten");
+var del = require("del");
+var merge = require("merge-stream");
 
-var babelPluginModules = require('fbjs-scripts/babel-6/rewrite-modules');
-var stripProvidesModule = require('fbjs-scripts/gulp/strip-provides-module');
-var extractErrors = require('./scripts/error-codes/gulp-extract-errors');
-var devExpressionWithCodes = require('./scripts/error-codes/dev-expression-with-codes');
+var babelPluginModules = require("fbjs-scripts/babel-6/rewrite-modules");
+var stripProvidesModule = require("fbjs-scripts/gulp/strip-provides-module");
+var extractErrors = require("./scripts/error-codes/gulp-extract-errors");
+var devExpressionWithCodes = require("./scripts/error-codes/dev-expression-with-codes");
 
 // Load all of the Gulp plugins.
-var plugins = require('gulp-load-plugins')();
+var plugins = require("gulp-load-plugins")();
 
 function getTask(name) {
   return require(`./gulp/tasks/${name}`)(gulp, plugins);
@@ -30,142 +30,141 @@ function getTask(name) {
 var paths = {
   react: {
     src: [
-      'src/umd/ReactUMDEntry.js',
-      'src/umd/ReactWithAddonsUMDEntry.js',
-      'src/umd/shims/**/*.js',
+      "src/umd/ReactUMDEntry.js",
+      "src/umd/ReactWithAddonsUMDEntry.js",
+      "src/umd/shims/**/*.js",
 
-      'src/isomorphic/**/*.js',
-      'src/addons/**/*.js',
+      "src/isomorphic/**/*.js",
+      "src/addons/**/*.js",
 
-      'src/ReactVersion.js',
-      'src/shared/**/*.js',
-      '!src/shared/vendor/**/*.js',
-      '!src/**/__benchmarks__/**/*.js',
-      '!src/**/__tests__/**/*.js',
-      '!src/**/__mocks__/**/*.js',
+      "src/ReactVersion.js",
+      "src/shared/**/*.js",
+      "!src/shared/vendor/**/*.js",
+      "!src/**/__benchmarks__/**/*.js",
+      "!src/**/__tests__/**/*.js",
+      "!src/**/__mocks__/**/*.js",
     ],
-    lib: 'build/node_modules/react/lib',
+    lib: "build/node_modules/react/lib",
   },
   reactDOM: {
     src: [
-      'src/umd/ReactDOMUMDEntry.js',
-      'src/umd/ReactDOMServerUMDEntry.js',
+      "src/umd/ReactDOMUMDEntry.js",
+      "src/umd/ReactDOMServerUMDEntry.js",
 
-      'src/renderers/dom/**/*.js',
-      'src/renderers/shared/**/*.js',
-      'src/test/**/*.js', // ReactTestUtils is currently very coupled to DOM.
+      "src/renderers/dom/**/*.js",
+      "src/renderers/shared/**/*.js",
+      "src/test/**/*.js", // ReactTestUtils is currently very coupled to DOM.
 
       // ReactShallowRenderer was moved from ReactTestUtils to ReactTestRenderer but a pointer was left.
-      'src/renderers/testing/ReactShallowRenderer.js',
-      'src/renderers/testing/ReactTestReconcileTransaction.js',
+      "src/renderers/testing/ReactShallowRenderer.js",
+      "src/renderers/testing/ReactTestReconcileTransaction.js",
 
-      'src/ReactVersion.js',
-      'src/shared/**/*.js',
-      '!src/shared/vendor/**/*.js',
-      '!src/**/__benchmarks__/**/*.js',
-      '!src/**/__tests__/**/*.js',
-      '!src/**/__mocks__/**/*.js',
+      "src/ReactVersion.js",
+      "src/shared/**/*.js",
+      "!src/shared/vendor/**/*.js",
+      "!src/**/__benchmarks__/**/*.js",
+      "!src/**/__tests__/**/*.js",
+      "!src/**/__mocks__/**/*.js",
     ],
-    lib: 'build/node_modules/react-dom/lib',
+    lib: "build/node_modules/react-dom/lib",
   },
   reactNative: {
     src: [
-      'src/renderers/native/**/*.js',
-      'src/renderers/shared/**/*.js',
+      "src/renderers/native/**/*.js",
+      "src/renderers/shared/**/*.js",
 
-      'src/ReactVersion.js',
-      'src/shared/**/*.js',
-      '!src/shared/vendor/**/*.js',
-      '!src/**/__benchmarks__/**/*.js',
-      '!src/**/__tests__/**/*.js',
-      '!src/**/__mocks__/**/*.js',
+      "src/ReactVersion.js",
+      "src/shared/**/*.js",
+      "!src/shared/vendor/**/*.js",
+      "!src/**/__benchmarks__/**/*.js",
+      "!src/**/__tests__/**/*.js",
+      "!src/**/__mocks__/**/*.js",
     ],
-    lib: 'build/node_modules/react-native/lib',
+    lib: "build/node_modules/react-native/lib",
   },
   reactShallowRenderer: {
     src: [
       // Shallow renderer reuses some DOM code
-      'src/renderers/dom/**/*.js',
-      'src/renderers/testing/**/*.js',
-      'src/renderers/shared/**/*.js',
+      "src/renderers/dom/**/*.js",
+      "src/renderers/testing/**/*.js",
+      "src/renderers/shared/**/*.js",
 
-      'src/ReactVersion.js',
-      'src/shared/**/*.js',
-      '!src/shared/vendor/**/*.js',
-      '!src/**/__benchmarks__/**/*.js',
-      '!src/**/__tests__/**/*.js',
-      '!src/**/__mocks__/**/*.js',
+      "src/ReactVersion.js",
+      "src/shared/**/*.js",
+      "!src/shared/vendor/**/*.js",
+      "!src/**/__benchmarks__/**/*.js",
+      "!src/**/__tests__/**/*.js",
+      "!src/**/__mocks__/**/*.js",
     ],
     // We put it into a subfolder of test renderer but
     // with a separate copy of the reconciler.
-    lib: 'build/node_modules/react-test-renderer/lib/shallow/',
+    lib: "build/node_modules/react-test-renderer/lib/shallow/",
   },
   reactTestRenderer: {
     src: [
-      'src/renderers/testing/**/*.js',
-      'src/renderers/shared/**/*.js',
+      "src/renderers/testing/**/*.js",
+      "src/renderers/shared/**/*.js",
 
-      'src/ReactVersion.js',
-      'src/shared/**/*.js',
-      '!src/shared/vendor/**/*.js',
-      '!src/**/__benchmarks__/**/*.js',
-      '!src/**/__tests__/**/*.js',
-      '!src/**/__mocks__/**/*.js',
+      "src/ReactVersion.js",
+      "src/shared/**/*.js",
+      "!src/shared/vendor/**/*.js",
+      "!src/**/__benchmarks__/**/*.js",
+      "!src/**/__tests__/**/*.js",
+      "!src/**/__mocks__/**/*.js",
     ],
-    lib: 'build/node_modules/react-test-renderer/lib',
+    lib: "build/node_modules/react-test-renderer/lib",
   },
 };
 
+// 基础模块
 var moduleMapBase = Object.assign(
   {
-    'object-assign': 'object-assign',
-    'create-react-class': 'create-react-class',
-    'create-react-class/factory': 'create-react-class/factory',
-    'prop-types': 'prop-types',
-    'prop-types/factory': 'prop-types/factory',
+    "object-assign": "object-assign",
+    "create-react-class": "create-react-class",
+    "create-react-class/factory": "create-react-class/factory",
+    "prop-types": "prop-types",
+    "prop-types/factory": "prop-types/factory",
   },
-  require('fbjs/module-map')
+  require("fbjs/module-map")
 );
 
 var moduleMapReact = Object.assign(
   {
     // Addons needs to reach into DOM internals
-    ReactDOM: 'react-dom/lib/ReactDOM',
-    ReactInstanceMap: 'react-dom/lib/ReactInstanceMap',
-    ReactTestUtils: 'react-dom/lib/ReactTestUtils',
-    ReactPerf: 'react-dom/lib/ReactPerf',
-    getVendorPrefixedEventName: 'react-dom/lib/getVendorPrefixedEventName',
+    ReactDOM: "react-dom/lib/ReactDOM",
+    ReactInstanceMap: "react-dom/lib/ReactInstanceMap",
+    ReactTestUtils: "react-dom/lib/ReactTestUtils",
+    ReactPerf: "react-dom/lib/ReactPerf",
+    getVendorPrefixedEventName: "react-dom/lib/getVendorPrefixedEventName",
   },
   moduleMapBase
 );
 
 var rendererSharedState = {
   // Alias
-  React: 'react/lib/React',
+  React: "react/lib/React",
   // Shared state
-  ReactCurrentOwner: 'react/lib/ReactCurrentOwner',
-  ReactComponentTreeHook: 'react/lib/ReactComponentTreeHook',
-  getNextDebugID: 'react/lib/getNextDebugID',
+  ReactCurrentOwner: "react/lib/ReactCurrentOwner",
+  ReactComponentTreeHook: "react/lib/ReactComponentTreeHook",
+  getNextDebugID: "react/lib/getNextDebugID",
 };
 
-var moduleMapReactDOM = Object.assign(
-  {},
-  rendererSharedState,
-  moduleMapBase
-);
+var moduleMapReactDOM = Object.assign({}, rendererSharedState, moduleMapBase);
 
 var moduleMapReactNative = Object.assign(
   {
     // React Native Hooks
-    deepDiffer: 'react-native/lib/deepDiffer',
-    deepFreezeAndThrowOnMutationInDev: 'react-native/lib/deepFreezeAndThrowOnMutationInDev',
-    flattenStyle: 'react-native/lib/flattenStyle',
-    InitializeJavaScriptAppEngine: 'react-native/lib/InitializeJavaScriptAppEngine',
-    RCTEventEmitter: 'react-native/lib/RCTEventEmitter',
-    TextInputState: 'react-native/lib/TextInputState',
-    UIManager: 'react-native/lib/UIManager',
-    UIManagerStatTracker: 'react-native/lib/UIManagerStatTracker',
-    View: 'react-native/lib/View',
+    deepDiffer: "react-native/lib/deepDiffer",
+    deepFreezeAndThrowOnMutationInDev:
+      "react-native/lib/deepFreezeAndThrowOnMutationInDev",
+    flattenStyle: "react-native/lib/flattenStyle",
+    InitializeJavaScriptAppEngine:
+      "react-native/lib/InitializeJavaScriptAppEngine",
+    RCTEventEmitter: "react-native/lib/RCTEventEmitter",
+    TextInputState: "react-native/lib/TextInputState",
+    UIManager: "react-native/lib/UIManager",
+    UIManagerStatTracker: "react-native/lib/UIManagerStatTracker",
+    View: "react-native/lib/View",
   },
   rendererSharedState,
   moduleMapBase
@@ -184,53 +183,60 @@ var moduleMapReactTestRenderer = Object.assign(
 );
 
 var errorCodeOpts = {
-  errorMapFilePath: 'scripts/error-codes/codes.json',
+  errorMapFilePath: "scripts/error-codes/codes.json",
 };
 
+// babelPluginModules 是 fbjs-scripts/babel-6/rewrite-modules
+// 在 rewrite-modules 的代码中可以发现一个叫做mapModule的函数，
+// 负责 require() 中模块标识的替换，并返回对应的模块，
+// 其中模块共有两个来源：
+// 1.由于Facebook巨大的codebase的关系，一些工具函数在fbjs这个项目里，包括 invariant 函数等。
+// 2.当前项目的本地模块
+// 详情 https://github.com/facebook/fbjs/blob/master/packages/babel-preset-fbjs/plugins/rewrite-modules.js
 var babelOptsReact = {
   plugins: [
     devExpressionWithCodes, // this pass has to run before `rewrite-modules`
-    [babelPluginModules, {map: moduleMapReact}],
+    [babelPluginModules, { map: moduleMapReact }],
   ],
 };
 
 var babelOptsReactDOM = {
   plugins: [
     devExpressionWithCodes, // this pass has to run before `rewrite-modules`
-    [babelPluginModules, {map: moduleMapReactDOM}],
+    [babelPluginModules, { map: moduleMapReactDOM }],
   ],
 };
 
 var babelOptsReactNative = {
   plugins: [
     devExpressionWithCodes, // this pass has to run before `rewrite-modules`
-    [babelPluginModules, {map: moduleMapReactNative}],
+    [babelPluginModules, { map: moduleMapReactNative }],
   ],
 };
 
 var babelOptsReactShallowRenderer = {
   plugins: [
     devExpressionWithCodes, // this pass has to run before `rewrite-modules`
-    [babelPluginModules, {map: moduleMapReactShallowRenderer}],
+    [babelPluginModules, { map: moduleMapReactShallowRenderer }],
   ],
 };
 
 var babelOptsReactTestRenderer = {
   plugins: [
     devExpressionWithCodes, // this pass has to run before `rewrite-modules`
-    [babelPluginModules, {map: moduleMapReactTestRenderer}],
+    [babelPluginModules, { map: moduleMapReactTestRenderer }],
   ],
 };
 
-gulp.task('eslint', getTask('eslint'));
+gulp.task("eslint", getTask("eslint"));
 
-gulp.task('lint', ['eslint']);
+gulp.task("lint", ["eslint"]);
 
-gulp.task('flow', getTask('flow'));
+gulp.task("flow", getTask("flow"));
 
-gulp.task('version-check', getTask('version-check'));
+gulp.task("version-check", getTask("version-check"));
 
-gulp.task('react:clean', function() {
+gulp.task("react:clean", function () {
   return del([
     paths.react.lib,
     paths.reactDOM.lib,
@@ -240,8 +246,10 @@ gulp.task('react:clean', function() {
   ]);
 });
 
-gulp.task('react:modules', function() {
+gulp.task("react:modules", function () {
   return merge(
+    // 将 paths.react.src 目录下所有的模块复制到 paths.react.lib 下，
+    // 以便 paths.react.lib 内部模块之间的相互引用
     gulp
       .src(paths.react.src)
       .pipe(babel(babelOptsReact))
@@ -279,14 +287,18 @@ gulp.task('react:modules', function() {
   );
 });
 
-gulp.task('react:extract-errors', function() {
-  return gulp.src([].concat(
-    paths.react.src,
-    paths.reactDOM.src,
-    paths.reactNative.src,
-    paths.reactShallowRenderer.src,
-    paths.reactTestRenderer.src
-  )).pipe(extractErrors(errorCodeOpts));
+gulp.task("react:extract-errors", function () {
+  return gulp
+    .src(
+      [].concat(
+        paths.react.src,
+        paths.reactDOM.src,
+        paths.reactNative.src,
+        paths.reactShallowRenderer.src,
+        paths.reactTestRenderer.src
+      )
+    )
+    .pipe(extractErrors(errorCodeOpts));
 });
 
-gulp.task('default', ['react:modules']);
+gulp.task("default", ["react:modules"]);
