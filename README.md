@@ -4,7 +4,7 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-23 19:27:24
+ * @LastEditTime: 2020-04-23 19:28:39
  -->
 # [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
@@ -17,7 +17,7 @@ LinkedStateMixin 等。
 * **shared:** 包含一些公用或常用方法，如 PooledClass 等。
 * **renderers:** 是 React 代码的核心部分，它包含了大部分功能实现。renderers 分为 dom 和 shared 等目录。
   * **dom:** 包含 client、server 和 shared。
-    * **client:** 包含 DOM 操作方法（如 findDOMNode 、 setInnerHTML 、 setTextContent 等）以及事件方法，结构如图 3-2 所示。这里的事件方法主要是一些非底层的实用性事件方法，如事件监听（ ReactEventListener ）、常用事件方法（ TapEventPlugin 、 EnterLeave-EventPlugin ）以及一些合成事件（ SyntheticEvents 等）。
+    * **client:** 包含 DOM 操作方法（如 findDOMNode 、 setInnerHTML 、 setTextContent 等）以及事件方法。这里的事件方法主要是一些非底层的实用性事件方法，如事件监听（ ReactEventListener ）、常用事件方法（ TapEventPlugin 、 EnterLeave-EventPlugin ）以及一些合成事件（ SyntheticEvents 等）。
     * **server:** 主要包含服务端渲染的实现和方法（如ReactServerRendering 、 ReactServer-RenderingTransaction 等）。
     * **shared:** 包含文本组件（ReactDOMTextComponent）、标签组件（ReactDOMComponent）、DOM 属性操作（ DOMProperty 、 DOMPropertyOperations ）、CSS 属性操作（ CSSProperty 、CSSPropertyOperations ）等。
   * **shared:** 包含 event 和 reconciler。
