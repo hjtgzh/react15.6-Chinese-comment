@@ -4,7 +4,7 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-23 22:25:39
+ * @LastEditTime: 2020-04-23 22:43:47
  -->
 # [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
@@ -27,6 +27,10 @@ LinkedStateMixin 等。
     * **reconciler:** 称为协调器，它是最为核心的部分，包含 React 中自定义组件的实现（ReactCompositeComponent）、组件生命周期机制、setState 机制（ReactUpdates、ReactUpdateQueue）、DOM diff 算法（ReactMultiChild）等重要的特性方法。
 * **test:** 包含一些测试方法等。
 
+## React 使用了 Grunt，Gulp，browserify 以及 npm scripts 来构建
+内部自定义的模块系统，所有文件名是全局唯一的。
+react 源码中的外部依赖很少，一般如果在 src 目录下找不到一个文件，可以去 fbjs 的 npm 包中查找。然而，在 react 的入口文件 ReactEntry.js 中就看到了一个外部依赖包 object-assign。而且，react 自己写了个 babel-plugin , 在 scripts/babel/transform-object-assign-require 目录，将 Object.assign 转换为 require('object-assign')。
+
 ## Examples
 
 We have several examples [on the website](https://facebook.github.io/react/). Here is the first one to get you started:
@@ -48,37 +52,3 @@ This example will render "Hello John" into a container on the page.
 
 You'll notice that we used an HTML-like syntax; [we call it JSX](https://facebook.github.io/react/docs/introducing-jsx.html). JSX is not required to use React, but it makes code more readable, and writing it feels like writing HTML. We recommend using [Babel](https://babeljs.io/) with a [React preset](https://babeljs.io/docs/plugins/preset-react/) to convert JSX into native JavaScript for browsers to digest.
 
-## Installation
-
-React is available as the `react` package on [npm](https://www.npmjs.com/). It is also available on a [CDN](https://facebook.github.io/react/docs/installation.html#using-a-cdn).
-
-React is flexible and can be used in a variety of projects. You can create new apps with it, but you can also gradually introduce it into an existing codebase without doing a rewrite.
-
-The recommended way to install React depends on your project. Here you can find short guides for the most common scenarios:
-
-* [Trying Out React](https://facebook.github.io/react/docs/installation.html#trying-out-react)
-* [Creating a Single Page Application](https://facebook.github.io/react/docs/installation.html#creating-a-single-page-application)
-* [Adding React to an Existing Application](https://facebook.github.io/react/docs/installation.html#adding-react-to-an-existing-application)
-
-## Contributing
-
-The main purpose of this repository is to continue to evolve React core, making it faster and easier to use. If you're interested in helping with that, check out our [contribution guide](https://facebook.github.io/react/contributing/how-to-contribute.html).
-
-### [Code of Conduct](https://code.facebook.com/codeofconduct)
-
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.facebook.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
-
-### Good First Bug
-
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [good first bugs](https://github.com/facebook/react/labels/good%20first%20bug) that contain bugs which are fairly easy to fix. This is a great place to get started.
-
-### License
-
-React is [BSD licensed](./LICENSE). We also provide an additional [patent grant](./PATENTS).
-
-React documentation is [Creative Commons licensed](./LICENSE-docs).
-
-Examples provided in this repository and in the documentation are [separately licensed](./LICENSE-examples).
-
-## Troubleshooting
-See the [Troubleshooting Guide](https://github.com/facebook/react/wiki/Troubleshooting)
