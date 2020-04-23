@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     colorator (0.1)
+    crass (1.0.6)
     ffi (1.9.14)
     ffi (1.9.14-x64-mingw32)
     jekyll (3.1.6)
@@ -27,14 +28,13 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     mercenary (0.3.6)
-    mini_portile2 (2.1.0)
-    nokogiri (1.6.8)
-      mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
-    nokogiri (1.6.8-x64-mingw32)
-      mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
-    pkg-config (1.1.7)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.9)
+      mini_portile2 (~> 2.4.0)
+    nokogiri (1.10.9-x64-mingw32)
+      mini_portile2 (~> 2.4.0)
+    nokogumbo (1.5.0)
+      nokogiri
     posix-spawn (0.3.11)
     pygments.rb (0.6.3)
       posix-spawn (~> 0.3.6)
@@ -46,8 +46,10 @@ GEM
     redcarpet (3.3.4)
     rouge (1.11.1)
     safe_yaml (1.0.4)
-    sanitize (2.1.0)
+    sanitize (4.6.3)
+      crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
+      nokogumbo (~> 1.4)
     sass (3.4.22)
     yajl-ruby (1.2.1)
 
@@ -64,4 +66,4 @@ DEPENDENCIES
   rake
   rb-fsevent
   redcarpet
-  sanitize (~> 2.0)
+  sanitize (~> 4.6)
