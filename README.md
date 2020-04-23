@@ -4,7 +4,7 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-23 22:22:33
+ * @LastEditTime: 2020-04-23 22:25:39
  -->
 # [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
@@ -22,7 +22,8 @@ LinkedStateMixin 等。
     * **server:** 主要包含服务端渲染的实现和方法（如ReactServerRendering 、 ReactServer-RenderingTransaction 等）。
     * **shared:** 包含文本组件（ReactDOMTextComponent）、标签组件（ReactDOMComponent）、DOM 属性操作（ DOMProperty 、 DOMPropertyOperations ）、CSS 属性操作（ CSSProperty 、CSSPropertyOperations ）等。
   * **shared:** 包含 event 和 reconciler。
-    * **event:** 包含一些更为底层的事件方法，如事件插件中心（ EventPluginHub ）、事件注册（ EventPluginRegistry ）、事件传播（ EventPropagators ）以及一些事件通用方法。React 自定义了一套通用事件的插件系统，该系统包含事件监听器、事件发射器、事件插件中心、点击事件、进/出事件、简单事件、合成事件以及一些事件方法。
+    * **event:** 包含一些更为底层的事件方法，如事件插件中心（ EventPluginHub ）、事件注册（ EventPluginRegistry ）、事件传播（ EventPropagators ）以及一些事件通用方法。React 自定义了一套通用事件的插件系统，该系统包含事件监听器、事件发射器、事件插件中心、点击事件、进/出事件、简单事件、合成事件以及一些事件方法，如图 3-3所示。
+    ![avatar](/imgs/event.png)
     * **reconciler:** 称为协调器，它是最为核心的部分，包含 React 中自定义组件的实现（ReactCompositeComponent）、组件生命周期机制、setState 机制（ReactUpdates、ReactUpdateQueue）、DOM diff 算法（ReactMultiChild）等重要的特性方法。
 * **test:** 包含一些测试方法等。
 
