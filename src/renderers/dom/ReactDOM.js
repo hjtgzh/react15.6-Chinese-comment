@@ -30,6 +30,7 @@ ReactDefaultInjection.inject();
 
 var ReactDOM = {
   findDOMNode: findDOMNode,
+  // 挂在虚拟dom的方法，调用 ReactMount 模块的 render方法
   render: ReactMount.render,
   unmountComponentAtNode: ReactMount.unmountComponentAtNode,
   version: ReactVersion,

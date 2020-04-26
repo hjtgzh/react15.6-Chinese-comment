@@ -20,7 +20,7 @@ var ReactBrowserEventEmitter = require("ReactBrowserEventEmitter");
 var ReactHostComponent = require("ReactHostComponent");
 var ReactUpdates = require("ReactUpdates");
 
-// 这里会被 ReactDefaultInjection 模块的 inject 调用
+// 这里会被 ReactDefaultInjection 模块的 inject 调用，关联对应模块的方法
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
   DOMProperty: DOMProperty.injection,

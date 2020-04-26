@@ -109,7 +109,8 @@ function mountComponentIntoNode(
   }
 
   // 调用 ReactReconciler 模块的 mountComponent
-  // 实际是调用参数 wrapperInstance 的 mountComponent 方法，返回对应标记
+  // 实际是调用参数 wrapperInstance 的 mountComponent 方法，即 instantiateReactComponent 模块返回实例的 mountComponent 方法，
+  // 最终返回对应标记
   var markup = ReactReconciler.mountComponent(
     wrapperInstance,
     transaction,
@@ -397,7 +398,7 @@ var ReactMount = {
 
     ReactBrowserEventEmitter.ensureScrollValueMonitoring();
     // 调用 instantiateReactComponent 模块，
-    // 获取对应的组件实例（如自定义 ReactCompositeComponentWrapper 组件、内部 createInternalComponent 组件）
+    // 获取对应的组件实例（如自定义 ReactCompositeComponent 组件、内部 createInternalComponent 组件）
     var componentInstance = instantiateReactComponent(nextElement, false);
 
     // The initial render is synchronous but any updates that happen during
@@ -589,6 +590,7 @@ var ReactMount = {
    * @param {?function} callback function triggered on completion
    * @return {ReactComponent} Component instance rendered in `container`.
    */
+  // 默认render方法
   render: function (nextElement, container, callback) {
     return ReactMount._renderSubtreeIntoContainer(
       null,

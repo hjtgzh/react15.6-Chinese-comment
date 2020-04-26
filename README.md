@@ -4,7 +4,7 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-24 09:25:36
+ * @LastEditTime: 2020-04-26 13:46:46
  -->
 # [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
@@ -34,7 +34,7 @@ react 源码中的外部依赖很少，一般如果在 src 目录下找不到一
 
 ## 官方案例
 
-We have several examples [on the website](https://facebook.github.io/react/). Here is the first one to get you started:
+We have several examples [on the website](https://zh-hans.reactjs.org/). Here is the first one to get you started:
 
 ```js
 class HelloMessage extends React.Component {

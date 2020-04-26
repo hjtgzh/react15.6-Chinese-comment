@@ -9,26 +9,26 @@
  * @providesModule React
  */
 
-'use strict';
+"use strict";
 
-var ReactBaseClasses = require('ReactBaseClasses');
-var ReactChildren = require('ReactChildren');
-var ReactDOMFactories = require('ReactDOMFactories');
-var ReactElement = require('ReactElement');
-var ReactPropTypes = require('ReactPropTypes');
-var ReactVersion = require('ReactVersion');
+var ReactBaseClasses = require("ReactBaseClasses");
+var ReactChildren = require("ReactChildren");
+var ReactDOMFactories = require("ReactDOMFactories");
+var ReactElement = require("ReactElement");
+var ReactPropTypes = require("ReactPropTypes");
+var ReactVersion = require("ReactVersion");
 
-var createReactClass = require('createClass');
-var onlyChild = require('onlyChild');
+var createReactClass = require("createClass");
+var onlyChild = require("onlyChild");
 
 var createElement = ReactElement.createElement;
 var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (__DEV__) {
-  var lowPriorityWarning = require('lowPriorityWarning');
-  var canDefineProperty = require('canDefineProperty');
-  var ReactElementValidator = require('ReactElementValidator');
+  var lowPriorityWarning = require("lowPriorityWarning");
+  var canDefineProperty = require("canDefineProperty");
+  var ReactElementValidator = require("ReactElementValidator");
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
@@ -36,38 +36,41 @@ if (__DEV__) {
 }
 
 var __spread = Object.assign;
-var createMixin = function(mixin) {
+var createMixin = function (mixin) {
   return mixin;
 };
 
 if (__DEV__) {
   var warnedForSpread = false;
   var warnedForCreateMixin = false;
-  __spread = function() {
+  __spread = function () {
     lowPriorityWarning(
       warnedForSpread,
-      'React.__spread is deprecated and should not be used. Use ' +
-        'Object.assign directly or another helper function with similar ' +
-        'semantics. You may be seeing this warning due to your compiler. ' +
-        'See https://fb.me/react-spread-deprecation for more details.',
+      "React.__spread is deprecated and should not be used. Use " +
+        "Object.assign directly or another helper function with similar " +
+        "semantics. You may be seeing this warning due to your compiler. " +
+        "See https://fb.me/react-spread-deprecation for more details."
     );
     warnedForSpread = true;
     return Object.assign.apply(null, arguments);
   };
 
-  createMixin = function(mixin) {
+  createMixin = function (mixin) {
     lowPriorityWarning(
       warnedForCreateMixin,
-      'React.createMixin is deprecated and should not be used. ' +
-        'In React v16.0, it will be removed. ' +
-        'You can use this mixin directly instead. ' +
-        'See https://fb.me/createmixin-was-never-implemented for more info.',
+      "React.createMixin is deprecated and should not be used. " +
+        "In React v16.0, it will be removed. " +
+        "You can use this mixin directly instead. " +
+        "See https://fb.me/createmixin-was-never-implemented for more info."
     );
     warnedForCreateMixin = true;
     return mixin;
   };
 }
 
+// Virtual DOM 中的节点称为 ReactNode，
+// 它分为3种类型 ReactElement、ReactFragment 和 ReactText。
+// 其中，ReactElement 又分为 ReactComponentElement 和 ReactDOMElement
 var React = {
   // Modern
 
@@ -82,6 +85,7 @@ var React = {
   Component: ReactBaseClasses.Component,
   PureComponent: ReactBaseClasses.PureComponent,
 
+  // 通过 JSX 创建的虚拟元素最终会被编译成调用 React 的 createElement 方法
   createElement: createElement,
   cloneElement: cloneElement,
   isValidElement: ReactElement.isValidElement,
@@ -106,31 +110,31 @@ var React = {
 if (__DEV__) {
   let warnedForCreateClass = false;
   if (canDefineProperty) {
-    Object.defineProperty(React, 'PropTypes', {
+    Object.defineProperty(React, "PropTypes", {
       get() {
         lowPriorityWarning(
           didWarnPropTypesDeprecated,
-          'Accessing PropTypes via the main React package is deprecated,' +
-            ' and will be removed in  React v16.0.' +
-            ' Use the latest available v15.* prop-types package from npm instead.' +
-            ' For info on usage, compatibility, migration and more, see ' +
-            'https://fb.me/prop-types-docs',
+          "Accessing PropTypes via the main React package is deprecated," +
+            " and will be removed in  React v16.0." +
+            " Use the latest available v15.* prop-types package from npm instead." +
+            " For info on usage, compatibility, migration and more, see " +
+            "https://fb.me/prop-types-docs"
         );
         didWarnPropTypesDeprecated = true;
         return ReactPropTypes;
       },
     });
 
-    Object.defineProperty(React, 'createClass', {
-      get: function() {
+    Object.defineProperty(React, "createClass", {
+      get: function () {
         lowPriorityWarning(
           warnedForCreateClass,
-          'Accessing createClass via the main React package is deprecated,' +
-            ' and will be removed in React v16.0.' +
+          "Accessing createClass via the main React package is deprecated," +
+            " and will be removed in React v16.0." +
             " Use a plain JavaScript class instead. If you're not yet " +
-            'ready to migrate, create-react-class v15.* is available ' +
-            'on npm as a temporary, drop-in replacement. ' +
-            'For more info see https://fb.me/react-create-class',
+            "ready to migrate, create-react-class v15.* is available " +
+            "on npm as a temporary, drop-in replacement. " +
+            "For more info see https://fb.me/react-create-class"
         );
         warnedForCreateClass = true;
         return createReactClass;
@@ -143,17 +147,17 @@ if (__DEV__) {
   // to the `react-dom-factories` package.
   React.DOM = {};
   var warnedForFactories = false;
-  Object.keys(ReactDOMFactories).forEach(function(factory) {
-    React.DOM[factory] = function(...args) {
+  Object.keys(ReactDOMFactories).forEach(function (factory) {
+    React.DOM[factory] = function (...args) {
       if (!warnedForFactories) {
         lowPriorityWarning(
           false,
-          'Accessing factories like React.DOM.%s has been deprecated ' +
-            'and will be removed in v16.0+. Use the ' +
-            'react-dom-factories package instead. ' +
-            ' Version 1.0 provides a drop-in replacement.' +
-            ' For more info, see https://fb.me/react-dom-factories',
-          factory,
+          "Accessing factories like React.DOM.%s has been deprecated " +
+            "and will be removed in v16.0+. Use the " +
+            "react-dom-factories package instead. " +
+            " Version 1.0 provides a drop-in replacement." +
+            " For more info, see https://fb.me/react-dom-factories",
+          factory
         );
         warnedForFactories = true;
       }

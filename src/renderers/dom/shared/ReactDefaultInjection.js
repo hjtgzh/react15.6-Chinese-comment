@@ -34,6 +34,7 @@ var SimpleEventPlugin = require("SimpleEventPlugin");
 var alreadyInjected = false;
 
 // 这里会被 ReactDOM 模块调用，初始化所有注入
+// 调用 ReactInjection 模块对象的方法
 function inject() {
   if (alreadyInjected) {
     // TODO: This is currently true because these injections are shared between
