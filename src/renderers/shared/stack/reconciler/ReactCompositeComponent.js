@@ -531,6 +531,7 @@ var ReactCompositeComponent = {
     );
     this._renderedComponent = child;
 
+    // 递归渲染
     var markup = ReactReconciler.mountComponent(
       child,
       transaction,
