@@ -4,7 +4,7 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-23 23:22:50
+ * @LastEditTime: 2020-04-24 09:25:36
  -->
 # [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
@@ -32,7 +32,7 @@ LinkedStateMixin 等。
 
 react 源码中的外部依赖很少，一般如果在 src 目录下找不到一个文件，可以去 fbjs 的 npm 包中查找。然而，在 react 的入口文件 ReactEntry.js 中就看到了一个外部依赖包 object-assign。而且，react 自己写了个 babel-plugin , 在 scripts/babel/transform-object-assign-require 目录，将 Object.assign 转换为 require('object-assign')。
 
-## Examples
+## 官方案例
 
 We have several examples [on the website](https://facebook.github.io/react/). Here is the first one to get you started:
 
