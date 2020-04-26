@@ -4,7 +4,7 @@
  * @作者: 黄建停
  * @Date: 2020-04-10 09:30:55
  * @LastEditors: 黄建停
- * @LastEditTime: 2020-04-26 17:19:27
+ * @LastEditTime: 2020-04-26 17:20:59
  -->
 # [React](https://facebook.github.io/react/)15.6版本 源码中文注解
 
@@ -33,7 +33,7 @@ LinkedStateMixin 等。
 react 源码中的外部依赖很少，一般如果在 src 目录下找不到一个文件，可以去 fbjs 的 npm 包中查找。然而，在 react 的入口文件 ReactEntry.js 中就看到了一个外部依赖包 object-assign。而且，react 自己写了个 babel-plugin , 在 scripts/babel/transform-object-assign-require 目录，将 Object.assign 转换为 require('object-assign')。
 
 ## React 事务
-<!-- ![avatar](/imgs/perform.png) -->
+![avatar](/imgs/perform.png)
 事务就是将需要执行的方法使用 wrapper 封装起来，再通过事务提供的 perform 方法执行。而在 perform 之前，先执行所有 wrapper 中的 initialize 方法，执行完 perform 之后（即执行method 方法后）再执行所有的 close 方法。一组 initialize 及 close 方法称为一个 wrapper。从上图3-16中可以看出，事务支持多个 wrapper 叠加。
 到实现上，事务提供了一个 mixin 方法供其他模块实现自己需要的事务。而要使用事务的模块，除了需要把 mixin 混入自己的事务实现中外，还要额外实现一个抽象的 getTransactionWrappers 接口。这个接口用来获取所有需要封装的前置方法（ initialize ）和收尾方法（ close ），因此它需要返回一个数组的对象，每个对象分别有 key 为 initialize 和 close 的方法。
 
