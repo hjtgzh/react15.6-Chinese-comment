@@ -767,6 +767,8 @@ var ReactCompositeComponent = {
    */
   performUpdateIfNecessary: function (transaction) {
     if (this._pendingElement != null) {
+      // 更新组件，进行React Patch，让浏览器展示出最新的数据
+      // 如 调用react内部组件 ReactDOMComponent 的 receiveComponent 方法
       ReactReconciler.receiveComponent(
         this,
         this._pendingElement,
@@ -892,6 +894,7 @@ var ReactCompositeComponent = {
     if (shouldUpdate) {
       this._pendingForceUpdate = false;
       // Will set `this.props`, `this.state` and `this.context`.
+      // 更新组件
       this._performComponentUpdate(
         nextParentElement,
         nextProps,
@@ -990,6 +993,7 @@ var ReactCompositeComponent = {
     inst.state = nextState;
     inst.context = nextContext;
 
+    // 更新组件
     this._updateRenderedComponent(transaction, unmaskedContext);
 
     if (hasComponentDidUpdate) {
@@ -1076,6 +1080,7 @@ var ReactCompositeComponent = {
         }
       }
 
+      // 渲染新的组件
       this._replaceNodeWithMarkup(
         oldHostNode,
         nextMarkup,
@@ -1090,6 +1095,7 @@ var ReactCompositeComponent = {
    * @protected
    */
   _replaceNodeWithMarkup: function (oldHostNode, nextMarkup, prevInstance) {
+    // 调用 ReactComponentEnvironment 模块的 replaceNodeWithMarkup 方法
     ReactComponentEnvironment.replaceNodeWithMarkup(
       oldHostNode,
       nextMarkup,

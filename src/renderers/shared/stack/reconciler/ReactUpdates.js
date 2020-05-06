@@ -45,6 +45,7 @@ var NESTED_UPDATES = {
       // these new updates so that if A's componentDidUpdate calls setState on
       // B, B will update before the callback A's updater provided when calling
       // setState.
+      // 此时 dirtyComponents 为新push进去的 component
       dirtyComponents.splice(0, this.dirtyComponentsLength);
       flushBatchedUpdates();
     } else {

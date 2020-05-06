@@ -9,20 +9,21 @@
  * @providesModule DOMChildrenOperations
  */
 
-'use strict';
+"use strict";
 
-var DOMLazyTree = require('DOMLazyTree');
-var Danger = require('Danger');
-var ReactDOMComponentTree = require('ReactDOMComponentTree');
-var ReactInstrumentation = require('ReactInstrumentation');
+var DOMLazyTree = require("DOMLazyTree");
+var Danger = require("Danger");
+var ReactDOMComponentTree = require("ReactDOMComponentTree");
+var ReactInstrumentation = require("ReactInstrumentation");
 
-var createMicrosoftUnsafeLocalFunction = require('createMicrosoftUnsafeLocalFunction');
-var setInnerHTML = require('setInnerHTML');
-var setTextContent = require('setTextContent');
+var createMicrosoftUnsafeLocalFunction = require("createMicrosoftUnsafeLocalFunction");
+var setInnerHTML = require("setInnerHTML");
+var setTextContent = require("setTextContent");
 
 function getNodeAfter(parentNode, node) {
   // Special case for text components, which return [open, close] comments
   // from getHostNode.
+  // 文本组件的返回格式 [open, close] comments，需要做特殊处理
   if (Array.isArray(node)) {
     node = node[1];
   }
@@ -37,10 +38,11 @@ function getNodeAfter(parentNode, node) {
  * @param {number} index Index at which to insert the child.
  * @internal
  */
-var insertChildAt = createMicrosoftUnsafeLocalFunction(function(
+// 插入新节点的操作
+var insertChildAt = createMicrosoftUnsafeLocalFunction(function (
   parentNode,
   childNode,
-  referenceNode,
+  referenceNode
 ) {
   // We rely exclusively on `insertBefore(node, null)` instead of also using
   // `appendChild(node)`. (Using `undefined` is not allowed by all browsers so
@@ -51,7 +53,7 @@ var insertChildAt = createMicrosoftUnsafeLocalFunction(function(
 function insertLazyTreeChildAt(parentNode, childTree, referenceNode) {
   DOMLazyTree.insertTreeBefore(parentNode, childTree, referenceNode);
 }
-
+// 移动已有节点的操作
 function moveChild(parentNode, childNode, referenceNode) {
   if (Array.isArray(childNode)) {
     moveDelimitedText(parentNode, childNode[0], childNode[1], referenceNode);
@@ -59,7 +61,7 @@ function moveChild(parentNode, childNode, referenceNode) {
     insertChildAt(parentNode, childNode, referenceNode);
   }
 }
-
+// 移除已有节点的操作
 function removeChild(parentNode, childNode) {
   if (Array.isArray(childNode)) {
     var closingComment = childNode[1];
@@ -69,12 +71,12 @@ function removeChild(parentNode, childNode) {
   }
   parentNode.removeChild(childNode);
 }
-
+// 文本组件需要去除 openingComment 和 closingComment，取得其中的 node
 function moveDelimitedText(
   parentNode,
   openingComment,
   closingComment,
-  referenceNode,
+  referenceNode
 ) {
   var node = openingComment;
   while (true) {
@@ -109,7 +111,7 @@ function replaceDelimitedText(openingComment, closingComment, stringText) {
       insertChildAt(
         parentNode,
         document.createTextNode(stringText),
-        nodeAfterComment,
+        nodeAfterComment
       );
     }
   } else {
@@ -127,7 +129,7 @@ function replaceDelimitedText(openingComment, closingComment, stringText) {
     ReactInstrumentation.debugTool.onHostOperation({
       instanceID: ReactDOMComponentTree.getInstanceFromNode(openingComment)
         ._debugID,
-      type: 'replace text',
+      type: "replace text",
       payload: stringText,
     });
   }
@@ -135,12 +137,12 @@ function replaceDelimitedText(openingComment, closingComment, stringText) {
 
 var dangerouslyReplaceNodeWithMarkup = Danger.dangerouslyReplaceNodeWithMarkup;
 if (__DEV__) {
-  dangerouslyReplaceNodeWithMarkup = function(oldChild, markup, prevInstance) {
+  dangerouslyReplaceNodeWithMarkup = function (oldChild, markup, prevInstance) {
     Danger.dangerouslyReplaceNodeWithMarkup(oldChild, markup);
     if (prevInstance._debugID !== 0) {
       ReactInstrumentation.debugTool.onHostOperation({
         instanceID: prevInstance._debugID,
-        type: 'replace with',
+        type: "replace with",
         payload: markup.toString(),
       });
     } else {
@@ -148,7 +150,7 @@ if (__DEV__) {
       if (nextInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onHostOperation({
           instanceID: nextInstance._debugID,
-          type: 'mount',
+          type: "mount",
           payload: markup.toString(),
         });
       }
@@ -171,26 +173,31 @@ var DOMChildrenOperations = {
    * @param {array<object>} updates List of update configurations.
    * @internal
    */
-  processUpdates: function(parentNode, updates) {
+  // React Patch 实现了关键的最后一步。所谓 Patch，简而言之就是将 tree diff 计算出来的 DOM
+  // 差异队列更新到真实的 DOM 节点上，最终让浏览器能够渲染出更新的数据
+  // Patch 方法主要是通过遍历差异队列实现的。
+  // 遍历差异队列时，通过更新类型进行相应的操作，包括：新节点的插入、已有节点的移动和移除等。
+  processUpdates: function (parentNode, updates) {
     if (__DEV__) {
       var parentNodeDebugID = ReactDOMComponentTree.getInstanceFromNode(
-        parentNode,
+        parentNode
       )._debugID;
     }
-
+    // 处理新增的节点、移动的节点以及需要移除的节点
     for (var k = 0; k < updates.length; k++) {
       var update = updates[k];
       switch (update.type) {
-        case 'INSERT_MARKUP':
+        // 插入新的节点
+        case "INSERT_MARKUP":
           insertLazyTreeChildAt(
             parentNode,
             update.content,
-            getNodeAfter(parentNode, update.afterNode),
+            getNodeAfter(parentNode, update.afterNode)
           );
           if (__DEV__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
-              type: 'insert child',
+              type: "insert child",
               payload: {
                 toIndex: update.toIndex,
                 content: update.content.toString(),
@@ -198,47 +205,49 @@ var DOMChildrenOperations = {
             });
           }
           break;
-        case 'MOVE_EXISTING':
+        // 需要移动的节点
+        case "MOVE_EXISTING":
           moveChild(
             parentNode,
             update.fromNode,
-            getNodeAfter(parentNode, update.afterNode),
+            getNodeAfter(parentNode, update.afterNode)
           );
           if (__DEV__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
-              type: 'move child',
-              payload: {fromIndex: update.fromIndex, toIndex: update.toIndex},
+              type: "move child",
+              payload: { fromIndex: update.fromIndex, toIndex: update.toIndex },
             });
           }
           break;
-        case 'SET_MARKUP':
+        case "SET_MARKUP":
           setInnerHTML(parentNode, update.content);
           if (__DEV__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
-              type: 'replace children',
+              type: "replace children",
               payload: update.content.toString(),
             });
           }
           break;
-        case 'TEXT_CONTENT':
+        case "TEXT_CONTENT":
           setTextContent(parentNode, update.content);
           if (__DEV__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
-              type: 'replace text',
+              type: "replace text",
               payload: update.content.toString(),
             });
           }
           break;
-        case 'REMOVE_NODE':
+        // 需要删除的节点
+        case "REMOVE_NODE":
           removeChild(parentNode, update.fromNode);
           if (__DEV__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
-              type: 'remove child',
-              payload: {fromIndex: update.fromIndex},
+              type: "remove child",
+              payload: { fromIndex: update.fromIndex },
             });
           }
           break;

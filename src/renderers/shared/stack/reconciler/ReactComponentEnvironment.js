@@ -10,9 +10,9 @@
  * @flow
  */
 
-'use strict';
+"use strict";
 
-var invariant = require('invariant');
+var invariant = require("invariant");
 
 type ReplaceNodeWithMarkup = (node: HTMLElement, markup: string) => void;
 type ProcessChildrenUpdates = (instance: mixed, updates: mixed) => void;
@@ -37,11 +37,14 @@ var ReactComponentEnvironment = {
    */
   processChildrenUpdates: (null: ?ReplaceNodeWithMarkup),
 
+  // 在默认注入里面
+  // 将 ReactComponentBrowserEnvironment 模块对象的 processChildrenUpdates 和 replaceNodeWithMarkup 属性值赋值给了
+  // ReactComponentEnvironment 模块对象的 processChildrenUpdates 和 replaceNodeWithMarkup 属性
   injection: {
-    injectEnvironment: function(environment: Environment) {
+    injectEnvironment: function (environment: Environment) {
       invariant(
         !injected,
-        'ReactCompositeComponent: injectEnvironment() can only be called once.',
+        "ReactCompositeComponent: injectEnvironment() can only be called once."
       );
       ReactComponentEnvironment.replaceNodeWithMarkup =
         environment.replaceNodeWithMarkup;

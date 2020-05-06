@@ -9,10 +9,10 @@
  * @providesModule ReactComponentBrowserEnvironment
  */
 
-'use strict';
+"use strict";
 
-var DOMChildrenOperations = require('DOMChildrenOperations');
-var ReactDOMIDOperations = require('ReactDOMIDOperations');
+var DOMChildrenOperations = require("DOMChildrenOperations");
+var ReactDOMIDOperations = require("ReactDOMIDOperations");
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -20,9 +20,11 @@ var ReactDOMIDOperations = require('ReactDOMIDOperations');
  * need for this injection.
  */
 var ReactComponentBrowserEnvironment = {
+  // 调用的是 ReactDOMIDOperations 模块的 dangerouslyProcessChildrenUpdates 方法
   processChildrenUpdates:
     ReactDOMIDOperations.dangerouslyProcessChildrenUpdates,
 
+  // 调用的是 DOMChildrenOperations 模块的 dangerouslyReplaceNodeWithMarkup 方法
   replaceNodeWithMarkup: DOMChildrenOperations.dangerouslyReplaceNodeWithMarkup,
 };
 

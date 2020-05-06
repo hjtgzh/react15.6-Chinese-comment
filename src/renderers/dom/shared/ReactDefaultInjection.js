@@ -84,6 +84,10 @@ function inject() {
   ReactInjection.Updates.injectReconcileTransaction(ReactReconcileTransaction);
   ReactInjection.Updates.injectBatchingStrategy(ReactDefaultBatchingStrategy);
 
+  // 实际调用 ReactInjection.Component 指向的是 ReactComponentEnvironment 模块的 injection 对象
+  // 调用了对象的 injectEnvironment 方法，
+  // 将 ReactComponentBrowserEnvironment 模块对象的 processChildrenUpdates 和 replaceNodeWithMarkup 属性值赋值给了
+  // ReactComponentEnvironment 模块对象的 processChildrenUpdates 和 replaceNodeWithMarkup 属性
   ReactInjection.Component.injectEnvironment(ReactComponentBrowserEnvironment);
 }
 
